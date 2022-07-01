@@ -1,2 +1,1 @@
-# leetcode-problems
-Collection of LeetCode questions to ace the coding interview! - 
+#leetcode all problems with soultions
