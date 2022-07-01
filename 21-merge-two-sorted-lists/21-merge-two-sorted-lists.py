@@ -1,14 +1,17 @@
 class Solution:
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        if not list1 and not list2:
-            return list1
-        if not list1 or not list2:
-            return list1 if not list2 else list2
-        seek, target = (list1, list2) if list1.val < list2.val else (list2, list1)
-        head = seek
-        while seek and target:
-            while seek.next and seek.next.val < target.val:
-                seek = seek.next
-            seek.next, target = target, seek.next
-            seek = seek.next
-        return head
+        result = ListNode()
+        result_head = result
+        
+        while list1 and list2:
+            if list2.val > list1.val:
+                result.next = list1
+                list1 = list1.next
+            else:
+                result.next = list2
+                list2 = list2.next
+                
+            result = result.next
+        
+        result.next = list1 or list2
+        return result_head.next
