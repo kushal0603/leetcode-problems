@@ -1,12 +1,9 @@
 class Solution:
-    def fib(self, N):
-		dp = []
-		dp.append(0)
-		dp.append(1)
-		if N==0 :
-			return 0;
+    def fib(self, n: int) -> int:
+        a, b = 0, 1
 
-		for i in range(2,N +1) :
-			dp.append(dp[-1] + dp[-2])
-
-		return dp[-1]
+        for i in range(2, n+1):
+            if i % 2 == 0: a = a + b
+            else: b = a + b
+                
+        return (a, b)[n%2 != 0]
