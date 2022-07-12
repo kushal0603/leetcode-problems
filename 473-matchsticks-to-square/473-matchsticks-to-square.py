@@ -1,35 +1,23 @@
 class Solution:
-    def makesquare(self, nums: List[int]) -> bool:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        n = len(matchsticks)
+        S = sum(matchsticks)
         
-        k = 4 
+        if S % 4 != 0: return False
+        target = S // 4
         
-        s = sum(nums)
-        if s % k != 0:
+        total = (1<<n)-1
+        
+        @cache
+        def check(mask, s):
+            if mask == total: return s == 0
+            for i in range(n):
+                if mask & (1<<i): continue
+                L = s+matchsticks[i]
+                if L == target and check(mask | (1<<i), 0):
+                    return True
+                if L < target and check(mask | (1<<i), L):
+                    return True
             return False
         
-        target = s // k 
-        n = len(nums)
-        
-        def dfs(m):
-            
-            stack = [(m, 0, {m}, nums[m])]
-            while stack:
-                #print(stack)
-                node, cnt, path, sums = stack.pop()
-                
-                
-                if sums == target:
-                    if cnt == k-1:
-                        return True
-                    for i in range(0, n):
-                        if i not in path:
-                            stack.append((i, cnt+1, path | {i}, nums[i]))
-
-                elif sums < target:
-                    for i in range(node+1, n):
-                        if i not in path:
-                            stack.append((i, cnt, path | {i}, sums + nums[i]))
-                else: # sums > target
-                    pass
-            return False
-        return dfs(0)
+        return check(0, 0)
