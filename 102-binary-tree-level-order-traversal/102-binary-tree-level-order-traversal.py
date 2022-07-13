@@ -1,29 +1,8 @@
-from collections import deque
-
 class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        queue = deque()
-        traversal = []
-        
-        if not root:
-            return traversal
-        
-        queue.append(root)
-        
-        while queue:
-            level = []
-            level_size = len(queue)
-            
-            for _ in range(level_size):
-                item = queue.popleft()
-                level.append(item.val)
-                
-                if item.left:
-                    queue.append(item.left)
-                
-                if item.right:
-                    queue.append(item.right)
-        
-            traversal.append(level)
-        
-        return traversal
+    def levelOrder(self, R: TreeNode) -> List[List[int]]:
+        if R == None: return []
+        A, V, C = [], [R.val], [R]
+        while V:
+            NV, C, V, _ = C, [], [], A.append(V)
+            [[(V.append(x.val),C.append(x)) for x in [n.left,n.right] if x != None] for n in NV]
+        return A
