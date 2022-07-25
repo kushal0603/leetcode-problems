@@ -1,3 +1,3 @@
 class Solution:
-    def searchRange(self, n: List[int], t: int) -> List[int]:
-    	return (lambda x,y: [-1,-1] if x == y else [x,y-1])(bisect.bisect_left(n,t),bisect.bisect(n,t))
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        return [-1,-1] if nums.count(target) == 0 else [nums.index(target), len(nums)-1-nums[::-1].index(target)]
