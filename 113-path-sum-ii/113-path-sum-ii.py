@@ -1,18 +1,19 @@
 class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        res = []
+    def pathSum(self, head: Optional[TreeNode], ts: int) -> List[List[int]]:
+        ans=[]
         
-        def dfs(root, sol, cur):
-            if root == None:
-                return 
+        def trav(root, lst):
+            if(not root):
+                return
             
-            cur = cur + root.val
+            if(root.left == None and root.right == None and root.val+sum(lst)==ts):
+                lst.append(root.val)
+                ans.append(lst)
+            else:
+                lst.append(root.val)
+                trav(root.left, lst.copy())
+                trav(root.right, lst.copy())
             
-            if cur == targetSum and not root.left and not root.right:
-                res.append(sol+[root.val])
-                
-            dfs(root.left, sol+[root.val], cur)
-            dfs(root.right, sol+[root.val], cur)
-            
-        dfs(root, [], 0)
-        return res
+        trav(head, [])
+        
+        return ans
