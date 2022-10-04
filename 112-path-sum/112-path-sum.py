@@ -1,9 +1,15 @@
 class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
-        if root is None:
-            return False
-        
-        if root.left is None and root.right is None and root.val - targetSum == 0:
-                return True
-				
-        return self.hasPathSum(root.left, targetSum - root.val) or self.hasPathSum(root.right, targetSum - root.val)
+        self.exist = False
+        def traverse(node, curSum):
+            if node is not None:
+                curSum += node.val
+                if not node.left and not node.right:
+                    if curSum == targetSum:
+                        self.exist = True
+                else:
+                    traverse(node.left, curSum)
+                    traverse(node.right, curSum)
+                curSum -= node.val
+        traverse(root, 0)
+        return self.exist
