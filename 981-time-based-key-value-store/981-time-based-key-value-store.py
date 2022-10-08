@@ -1,20 +1,27 @@
-from heapq import *
 class TimeMap:
 
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
-        self.times = collections.defaultdict(list)
-        
+        self.map = defaultdict(list)
+
     def set(self, key: str, value: str, timestamp: int) -> None:
-        # -1 to make it a maxheap
-        heappush(self.times[key], (timestamp*-1, value))
-        
+        self.map[key].append((timestamp, value))
+
     def get(self, key: str, timestamp: int) -> str:
-        res = ""
-        for value in self.times[key]:
-            if abs(value[0]) <= timestamp:
-                res = value[1]
-                break
-        return res
+        array = self.map[key]
+        low, high = 0, len(array) - 1
+        while low <= high:
+            mid = low + math.floor((high - low) / 2)
+            t, v = array[mid]
+            if t == timestamp:
+                return v
+            elif t < timestamp:
+                low = mid + 1
+            else:
+                high = mid - 1
+        
+        value = str()
+        if low > 0:
+            _, v = array[low - 1]
+            value += v
+        
+        return value
